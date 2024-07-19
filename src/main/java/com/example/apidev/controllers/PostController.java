@@ -28,7 +28,7 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity<PostModel> savePost(@RequestBody @Valid PostDto postDto, PostModel post) {
         var newPost = postService.createPost(post);
-        BeanUtils.copyProperties(postDto, newPost);
+        BeanUtils.copyProperties(postDto, post);
         return ResponseEntity.status(HttpStatus.OK).body(newPost);
     }
 
@@ -42,7 +42,7 @@ public class PostController {
     }
 
     @PutMapping("/posts/{id}")
-    public ResponseEntity<Object> updatePost(@PathVariable UUID id, @RequestBody PostModel post, @Valid PostDto postDto) {
+    public ResponseEntity<Object> updatePost( @PathVariable UUID id, @RequestBody @Valid  PostDto postDto, PostModel post) {
         var post0 = postService.listId(id);
         if (post0 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
